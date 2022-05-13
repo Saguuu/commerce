@@ -1,0 +1,61 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h1>Listing: {{ listing.item_name}}</h1>
+{% if user.is_authenticated and not in_watchlist %}
+    <form action="{% url 'listing' listing.id %}" method="post">
+        {% csrf_token %}
+        <button name="watchlist_item" type="submit" class="btn btn-secondary" value="add">Add to watchlist</button>
+    </form>
+</br>
+{% elif user.is_authenticated and in_watchlist %}
+    <form action="{% url 'listing' listing.id %}" method="post">
+        {% csrf_token %}
+        <button name="watchlist_item" type="submit" class="btn btn-secondary" value="remove">Remove from watchlist</button>
+    </form>
+</br>
+{% endif %}
+<img src="{{ listing.image }}" width="1000" height="500">
+</br>
+<h6 class="listing__disc">{{ listing.description }}</h6>
+</br>
+<h2> ${{ listing.price }}</h2>
+</br>
+{% if user.is_authenticated %}
+{% if bid_error %}
+    <div class="alert alert-danger" role="alert">
+        Bid lower than current bid.
+    </div>
+{% endif %}
+    <form action="{% url 'listing' listing.id %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input autofocus class="form-control" type="number" name="bid" placeholder="Bid">
+        </div>
+        <button type="submit" class="btn btn-primary">Place Bid</button>
+    </form>
+{% endif %}
+</br>
+<h2>Details</h2>
+    <ul class="list-group">
+        <li class="list-group-item">Listed by: {{ listing.lister }}</li>
+        <li class="list-group-item">category: {{ listing.category }}</li>
+    </ul>
+</br>
+<h2>Comments</h2>
+    <ul class="list-group">
+        {% for comment in comments %}
+            <li class="list-group-item">{{ comment.commenter }}: {{ comment }}</li>
+        {% endfor %}
+    </ul>
+</br>
+{% if user.is_authenticated %}
+<form action="{% url 'listing' listing.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <input autofocus class="form-control" type="text" name="comment" placeholder="Comment">
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+{% endif %}
+{% endblock %}

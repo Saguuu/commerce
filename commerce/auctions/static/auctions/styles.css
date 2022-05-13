@@ -1,0 +1,18 @@
+body {
+    padding: 10px;
+}
+
+.listing__disc {
+    margin-top: 5px;
+}
+
+.listing__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vw;
+}
+
+.card-img-top {
+    height: 150px;
+    width: 100%;
+}

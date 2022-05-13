@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 style="text-align:center">Create Listing</h2>
+    <form action="{% url 'create_listing' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="listing_name" name="item_name" placeholder="Item name" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="listing_description" name="description" placeholder="Item description" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="listing_price" name="price" placeholder="Item price" type="number">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="listing_image" name="image" placeholder="Image of item (URL)" type="text">
+        </div>
+        <div style="text-align:center">
+            <select name="category">
+                {% for category in categories %}
+                <option>{{ category }}</option>
+                {% endfor %}
+            </div>
+        </select>
+        <div style="text-align:center">
+        <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+{% endblock %}
